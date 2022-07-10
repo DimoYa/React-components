@@ -1,6 +1,8 @@
+import { userActions } from '../UserListConstants';
+
 export const UserItem = ({
   user,
-  onDetailsClick,
+  onActionClick,
 }) => {
   const defaultImg =
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png';
@@ -21,7 +23,7 @@ export const UserItem = ({
       <td>{user.createdAt}</td>
 
       <td className="actions">
-        <button className="btn edit-btn" title="Edit">
+        <button className="btn edit-btn" title="Edit" onClick={()=> onActionClick(user._id, userActions.Edit)}>
           <svg
             aria-hidden="true"
             focusable="false"
@@ -38,7 +40,7 @@ export const UserItem = ({
             ></path>
           </svg>
         </button>
-        <button className="btn delete-btn" title="Delete">
+        <button className="btn delete-btn" title="Delete" onClick={()=> onActionClick(user._id, userActions.Delete)}>
           <svg
             aria-hidden="true"
             focusable="false"
@@ -55,7 +57,7 @@ export const UserItem = ({
             ></path>
           </svg>
         </button>
-        <button className="btn info-btn" title="Info" onClick={()=> onDetailsClick(user._id)}>
+        <button className="btn info-btn" title="Info" onClick={()=> onActionClick(user._id, userActions.Details)}>
           <svg
             aria-hidden="true"
             focusable="false"
