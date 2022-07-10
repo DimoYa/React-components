@@ -16,10 +16,14 @@ export const UserList = ({users}) => {
     })
   }
 
+  const closeDetailHandler = () => {
+    setSelectedUser(null);
+  }
+
   return (
     <div className="table-wrapper">
 
-    {selectedUser && <UserDetails user={selectedUser}/>}
+    {selectedUser && <UserDetails user={selectedUser} onClose={closeDetailHandler}/>}
 
       {/* spinner */}
       {/* <div className="loading-shade">
