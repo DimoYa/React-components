@@ -5,7 +5,7 @@ export const UserEdit = ({ user, onClose }) => {
         <div className="modal">
           <div className="user-container">
             <header className="headers">
-              <h2>Edit User/Add User</h2>
+              <h2>Edit User</h2>
               <button className="btn close" onClick={onClose}>
                 <svg
                   aria-hidden="true"
@@ -141,7 +141,7 @@ export const UserEdit = ({ user, onClose }) => {
               </div>
               <div id="form-actions">
                 <button id="action-save" className="btn" type="submit">
-                  Save
+                  Edit
                 </button>
                 <button
                   id="action-cancel"

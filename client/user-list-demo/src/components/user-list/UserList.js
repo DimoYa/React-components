@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as userService from '../../services/userService';
 import { UserDelete } from './user-delete/UserDelete';
@@ -9,8 +9,13 @@ import { UserItem } from './user-item/UserItem';
 import { UserCreate } from './user-create/UserCreate';
 import { userActions } from './UserListConstants';
 
-export const UserList = ({ users }) => {
+export const UserList = () => {
   const [userAction, setUserAction] = useState({ user: null, action: null });
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    userService.getAll().then((users) => setUsers(users));
+  }, []);
 
   const userActionClickHandler = (id, actionType) => {
     userService.getById(id).then((user) => {
@@ -19,6 +24,35 @@ export const UserList = ({ users }) => {
         action: actionType,
       });
     });
+  };
+
+  const userCreateHandler = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const {
+        firstName,
+        lastName,
+        email,
+        imageUrl,
+        phoneNumber,
+        ...address
+    } = Object.fromEntries(formData);
+
+    const userData = {
+        firstName,
+        lastName,
+        email,
+        imageUrl,
+        phoneNumber,
+        address,
+    };
+
+    userService.create(userData)
+        .then(user => {
+            setUsers(oldUsers => [...oldUsers, user]);
+            closeHandler();
+        });
   };
 
   const closeHandler = () => {
@@ -41,7 +75,7 @@ export const UserList = ({ users }) => {
         )}
 
         {userAction.action === userActions.Add && (
-          <UserCreate onClose={closeHandler} />
+          <UserCreate onClose={closeHandler} onUserCreate={userCreateHandler} />
         )}
 
         <table className="table">
@@ -152,7 +186,12 @@ export const UserList = ({ users }) => {
           </tbody>
         </table>
       </div>
-      <button className="btn-add btn" onClick={() => userActionClickHandler(null, userActions.Add)}>Add new user</button>
+      <button
+        className="btn-add btn"
+        onClick={() => userActionClickHandler(null, userActions.Add)}
+      >
+        Add new user
+      </button>
     </>
   );
 };
